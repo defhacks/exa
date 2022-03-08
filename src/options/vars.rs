@@ -37,6 +37,9 @@ pub static EXA_STRICT: &str = "EXA_STRICT";
 /// it runs. Any non-empty value will turn debug mode on.
 pub static EXA_DEBUG: &str = "EXA_DEBUG";
 
+/// Environment variable to provide some arg aliasing
+pub static EXA_ALIASES: &str = "EXA_ALIASES";
+
 /// Environment variable used to limit the grid-details view
 /// (`--grid --long`) so it’s only activated if there’s at least the given
 /// number of rows of output.

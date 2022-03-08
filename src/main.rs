@@ -55,7 +55,26 @@ fn main() {
 
     logger::configure(env::var_os(vars::EXA_DEBUG));
 
-    let args: Vec<_> = env::args_os().skip(1).collect();
+    let mut args: Vec<_> = env::args_os().skip(1).collect();
+
+    if env::var_os(vars::EXA_ALIASES).is_some() {
+        let aliases = env::var_os(vars::EXA_ALIASES).unwrap().into_string().unwrap();
+        for alias in aliases.split(";") {
+            match alias.split("=").collect::<Vec<&str>>()[..] {
+                [src, dst] => {
+                    args = args.into_iter().map(|arg|{
+                        if arg == src {
+                            dst.into()
+                        } else {
+                            arg.into()
+                        }
+                    }).collect();
+                },
+                _ => panic!("invalid alias"),
+            }
+        }
+    }
+
     match Options::parse(args.iter().map(|e| e.as_ref()), &LiveVars) {
         OptionsResult::Ok(options, mut input_paths) => {
 
